@@ -2,117 +2,110 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>TrackMaster – Suivi universel (Shein, Temu, Amazon...)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrackMaster Pro – Suivi universel sans backend</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(145deg, #f5f7fc 0%, #eef2f8 100%);
-            color: #1a2c3e;
-            line-height: 1.5;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            padding: 2rem;
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem 1.5rem;
-            flex: 1;
         }
         .header {
             text-align: center;
+            color: white;
             margin-bottom: 3rem;
         }
         .logo {
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #2563eb, #3b82f6);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: inline-block;
             margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
         .tagline {
-            color: #4b5563;
             font-size: 1.1rem;
+            opacity: 0.95;
         }
         .search-card {
             background: white;
-            border-radius: 2rem;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
-            padding: 1.5rem;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             margin-bottom: 2rem;
         }
         .input-group {
             display: flex;
-            flex-wrap: wrap;
             gap: 1rem;
+            flex-wrap: wrap;
         }
         .input-group input {
             flex: 1;
             padding: 1rem 1.5rem;
             font-size: 1rem;
             border: 2px solid #e2e8f0;
-            border-radius: 3rem;
-            outline: none;
-            transition: all 0.2s;
+            border-radius: 1rem;
+            transition: all 0.3s;
         }
         .input-group input:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
         }
         .input-group button {
-            background: #1e293b;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
             padding: 0 2rem;
-            border-radius: 3rem;
+            border-radius: 1rem;
             font-weight: 600;
-            font-size: 1rem;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: transform 0.2s;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-        .input-group button:hover { background: #0f172a; }
+        .input-group button:hover {
+            transform: translateY(-2px);
+        }
         .result-card {
             background: white;
             border-radius: 1.5rem;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
             overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             margin-top: 2rem;
         }
         .status-header {
-            background: #f8fafc;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             padding: 1.5rem;
-            border-bottom: 1px solid #eef2ff;
+            border-bottom: 1px solid #e2e8f0;
         }
         .tracking-number {
-            font-size: 0.9rem;
-            color: #475569;
+            font-size: 0.85rem;
+            color: #64748b;
+            font-family: monospace;
         }
         .current-status {
             font-size: 1.5rem;
             font-weight: 700;
             margin-top: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
+            color: #0f172a;
         }
         .badge {
-            background: #dcfce7;
-            color: #15803d;
+            display: inline-block;
+            background: #10b981;
+            color: white;
             padding: 0.25rem 0.75rem;
             border-radius: 2rem;
-            font-size: 0.8rem;
-            font-weight: 500;
+            font-size: 0.75rem;
+            margin-left: 0.75rem;
+            vertical-align: middle;
         }
         .timeline {
             padding: 1.5rem;
@@ -129,26 +122,24 @@
             content: '';
             width: 12px;
             height: 12px;
-            background: #3b82f6;
+            background: #667eea;
             border-radius: 50%;
             position: absolute;
             left: -7px;
             top: 1.2rem;
-            border: 2px solid white;
-            box-shadow: 0 0 0 2px #e2e8f0;
         }
         .timeline-date {
             min-width: 120px;
             font-weight: 600;
-            color: #1e293b;
+            color: #475569;
         }
         .timeline-desc {
             flex: 1;
-            color: #334155;
+            color: #1e293b;
         }
         .timeline-location {
             font-size: 0.8rem;
-            color: #5b6e8c;
+            color: #64748b;
             margin-top: 0.25rem;
         }
         .loader {
@@ -157,32 +148,29 @@
         }
         .error {
             background: #fee2e2;
-            color: #991b1b;
+            color: #dc2626;
             padding: 1rem;
             border-radius: 1rem;
-            margin-top: 1rem;
-            text-align: center;
+            margin: 1rem;
         }
         footer {
-            background: #0f172a;
-            color: #cbd5e1;
-            padding: 2rem 1rem;
-            margin-top: 3rem;
             text-align: center;
+            margin-top: 3rem;
+            color: white;
         }
         .footer-links {
             display: flex;
             justify-content: center;
             gap: 2rem;
-            flex-wrap: wrap;
             margin-bottom: 1rem;
         }
         .footer-links a {
-            color: #94a3b8;
+            color: white;
             text-decoration: none;
             cursor: pointer;
+            opacity: 0.8;
         }
-        .footer-links a:hover { color: white; }
+        .footer-links a:hover { opacity: 1; }
         .modal {
             display: none;
             position: fixed;
@@ -199,46 +187,42 @@
             background: white;
             max-width: 500px;
             width: 90%;
-            border-radius: 1.5rem;
+            border-radius: 1rem;
             padding: 1.5rem;
-            position: relative;
-            max-height: 80vh;
-            overflow-y: auto;
         }
         .modal-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             margin-bottom: 1rem;
             font-weight: 700;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
         }
         .close-modal {
             cursor: pointer;
-            font-size: 1.5rem;
             background: none;
             border: none;
+            font-size: 1.5rem;
         }
         @media (max-width: 640px) {
+            body { padding: 1rem; }
             .timeline-item { flex-direction: column; gap: 0.25rem; }
             .timeline-date { min-width: auto; }
-            .input-group button { width: 100%; justify-content: center; padding: 0.8rem; }
         }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
-        <div class="logo">📦 TrackMaster</div>
-        <div class="tagline">Suivi universel : Shein, Temu, Amazon, et plus encore</div>
+        <div class="logo">📦 TrackMaster Pro</div>
+        <div class="tagline">Shein • Temu • Amazon • Aliexpress • DHL • UPS</div>
     </div>
 
     <div class="search-card">
         <div class="input-group">
             <input type="text" id="trackingInput" placeholder="Ex: LV123456789CN, 1Z9999WX..." autocomplete="off">
-            <button id="trackBtn"><i class="fas fa-search"></i> Suivre</button>
+            <button id="trackBtn"><i class="fas fa-search"></i> Suivre en direct</button>
         </div>
-        <div id="infoMessage" style="margin-top: 0.75rem; font-size: 0.85rem; color: #4b5563;"></div>
+        <div id="infoMessage" style="margin-top: 0.75rem; font-size: 0.85rem; color: #64748b;"></div>
     </div>
 
     <div id="resultArea"></div>
@@ -250,13 +234,13 @@
         <a id="privacyLink">🔒 Confidentialité</a>
         <a id="contactLink">📧 Contact</a>
     </div>
-    <div>© 2025 TrackMaster – Données réelles via parcelsapp.com (proxy CORS)</div>
+    <div>© 2025 TrackMaster Pro – Scraping réel avec JavaScript (DOMParser)</div>
 </footer>
 
 <!-- Modales -->
-<div id="mentionsModal" class="modal"><div class="modal-content"><div class="modal-header"><span>Mentions légales</span><button class="close-modal">&times;</button></div><p>TrackMaster est un service indépendant de suivi de colis. Les données sont extraites en temps réel de parcelsapp.com via un proxy CORS public. Aucune donnée utilisateur n'est stockée. Éditeur : TrackMaster (fictif) – 12 rue du Suivi, 75001 Paris.</p></div></div>
-<div id="privacyModal" class="modal"><div class="modal-content"><div class="modal-header"><span>Confidentialité</span><button class="close-modal">&times;</button></div><p>Aucun cookie ni donnée personnelle n'est collecté. Les numéros de suivi sont transmis directement au site de suivi via un proxy. Aucune information n'est enregistrée.</p></div></div>
-<div id="contactModal" class="modal"><div class="modal-content"><div class="modal-header"><span>Contact</span><button class="close-modal">&times;</button></div><p>Une question ? Écrivez-nous : <strong>support@trackmaster.fr</strong></p></div></div>
+<div id="mentionsModal" class="modal"><div class="modal-content"><div class="modal-header"><span>Mentions légales</span><button class="close-modal">&times;</button></div><p>TrackMaster Pro utilise un scraping JavaScript pur via DOMParser. Les données viennent de parcelsapp.com en temps réel. Aucune donnée n'est stockée.</p></div></div>
+<div id="privacyModal" class="modal"><div class="modal-content"><div class="modal-header"><span>Confidentialité</span><button class="close-modal">&times;</button></div><p>Aucun cookie, aucune donnée personnelle collectée. Les requêtes passent par un proxy CORS public.</p></div></div>
+<div id="contactModal" class="modal"><div class="modal-content"><div class="modal-header"><span>Contact</span><button class="close-modal">&times;</button></div><p>Email : support@trackmaster-pro.fr</p></div></div>
 
 <script>
     // Gestion des modales
@@ -272,52 +256,43 @@
     setupModal('privacyLink', 'privacyModal');
     setupModal('contactLink', 'contactModal');
 
-    // Configuration du proxy CORS (vous pouvez changer l'URL si vous avez votre propre proxy)
-    // Utilisation de cors-anywhere.herokuapp.com (limité mais fonctionne pour des tests)
-    // Pour une utilisation fiable, déployez votre propre proxy ou utilisez un service comme allorigins.win
-    const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
-    const TARGET_URL = 'https://parcelsapp.com/fr/chercher?q=';
+    // Proxy CORS fiable
+    const CORS_PROXY = 'https://api.allorigins.win/get?url=';
+    const TARGET_BASE = 'https://parcelsapp.com/fr/chercher?q=';
 
     async function trackPackage(trackingCode) {
         const resultArea = document.getElementById('resultArea');
         resultArea.innerHTML = `
             <div class="loader">
-                <i class="fas fa-spinner fa-pulse fa-2x" style="color:#3b82f6"></i>
-                <p>Recherche en temps réel sur parcelsapp.com...</p>
+                <i class="fas fa-spinner fa-pulse fa-2x" style="color:#667eea"></i>
+                <p style="margin-top: 1rem;">Scraping en temps réel via DOMParser...</p>
             </div>
         `;
-        document.getElementById('infoMessage').innerHTML = '';
 
         try {
-            // Requête via le proxy CORS
-            const url = CORS_PROXY + TARGET_URL + encodeURIComponent(trackingCode);
-            const response = await fetch(url, {
-                headers: {
-                    // Certains proxies nécessitent un header Origin, mais cors-anywhere le gère
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            });
-            if (!response.ok) throw new Error(`Erreur HTTP ${response.status}`);
-            const html = await response.text();
+            // Étape 1 : Récupérer la page via proxy
+            const proxyUrl = CORS_PROXY + encodeURIComponent(TARGET_BASE + trackingCode);
+            const response = await fetch(proxyUrl);
+            const data = await response.json();
+            
+            if (!data.contents) throw new Error("Contenu non récupérable");
 
-            // Parser le HTML
+            // Étape 2 : Parser le HTML avec DOMParser (équivalent BeautifulSoup en JS)
             const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
+            const doc = parser.parseFromString(data.contents, 'text/html');
 
-            // Extraire les données
+            // Étape 3 : Extraire les données comme avec BeautifulSoup
             const trackingNumberElem = doc.querySelector('span.tracking-number');
             const trackingNumber = trackingNumberElem ? trackingNumberElem.textContent.trim() : trackingCode;
 
-            // Statut actuel
-            let currentStatus = "Statut non trouvé";
-            const statusDiv = doc.querySelector('div.track-status') || doc.querySelector('div.status');
-            if (statusDiv) currentStatus = statusDiv.textContent.trim();
+            const statusElem = doc.querySelector('div.track-status') || doc.querySelector('div.status');
+            const currentStatus = statusElem ? statusElem.textContent.trim() : "Statut en cours de mise à jour";
 
-            // Timeline
+            // Étape 4 : Extraire la timeline
             const timeline = [];
             const events = doc.querySelectorAll('div.event, li.timeline-item');
+            
             if (events.length === 0) {
-                // Alternative: tableau de suivi
                 const rows = doc.querySelectorAll('tr.timeline-row');
                 rows.forEach(row => {
                     const cells = row.querySelectorAll('td');
@@ -332,27 +307,27 @@
             } else {
                 events.forEach(event => {
                     const dateElem = event.querySelector('.date');
-                    const locationElem = event.querySelector('.location');
+                    const locElem = event.querySelector('.location');
                     const descElem = event.querySelector('.description');
-                    const date = dateElem ? dateElem.textContent.trim() : '';
-                    const location = locationElem ? locationElem.textContent.trim() : '';
-                    const description = descElem ? descElem.textContent.trim() : '';
-                    if (date || description) {
-                        timeline.push({ date, location, description });
-                    }
+                    timeline.push({
+                        date: dateElem ? dateElem.textContent.trim() : '',
+                        location: locElem ? locElem.textContent.trim() : '',
+                        description: descElem ? descElem.textContent.trim() : ''
+                    });
                 });
             }
 
-            if (timeline.length === 0 && !statusDiv) {
-                throw new Error("Aucune information de suivi trouvée pour ce numéro.");
+            if (timeline.length === 0 && !statusElem) {
+                throw new Error("Aucune information trouvée pour ce numéro.");
             }
 
             displayResults(trackingNumber, currentStatus, timeline);
         } catch (error) {
             resultArea.innerHTML = `
                 <div class="error">
-                    <i class="fas fa-exclamation-triangle"></i> ${error.message}<br>
-                    Vérifiez le numéro et réessayez. Si le problème persiste, le proxy CORS peut être saturé.
+                    <i class="fas fa-exclamation-triangle"></i> 
+                    <strong>Erreur :</strong> ${error.message}<br>
+                    <small>Vérifiez le numéro de suivi ou réessayez dans quelques instants.</small>
                 </div>
             `;
         }
@@ -361,16 +336,17 @@
     function displayResults(trackingNumber, currentStatus, timeline) {
         const resultArea = document.getElementById('resultArea');
         let timelineHtml = `<div class="timeline">`;
+        
         if (timeline.length === 0) {
-            timelineHtml += `<p>Aucun événement détaillé.</p>`;
+            timelineHtml += `<p style="color: #64748b;">Aucun événement disponible pour le moment.</p>`;
         } else {
             timeline.forEach(ev => {
                 timelineHtml += `
                     <div class="timeline-item">
-                        <div class="timeline-date">${ev.date || 'Date inconnue'}</div>
+                        <div class="timeline-date">${escapeHtml(ev.date || 'Date inconnue')}</div>
                         <div>
-                            <div class="timeline-desc">${ev.description || 'Mise à jour'}</div>
-                            ${ev.location ? `<div class="timeline-location"><i class="fas fa-map-marker-alt"></i> ${ev.location}</div>` : ''}
+                            <div class="timeline-desc">${escapeHtml(ev.description || 'Mise à jour')}</div>
+                            ${ev.location ? `<div class="timeline-location"><i class="fas fa-map-marker-alt"></i> ${escapeHtml(ev.location)}</div>` : ''}
                         </div>
                     </div>
                 `;
@@ -381,10 +357,10 @@
         resultArea.innerHTML = `
             <div class="result-card">
                 <div class="status-header">
-                    <div class="tracking-number">${escapeHtml(trackingNumber)}</div>
+                    <div class="tracking-number">📮 ${escapeHtml(trackingNumber)}</div>
                     <div class="current-status">
                         ${escapeHtml(currentStatus)}
-                        <span class="badge"><i class="fas fa-sync-alt"></i> Données réelles</span>
+                        <span class="badge"><i class="fas fa-check-circle"></i> Données réelles</span>
                     </div>
                 </div>
                 ${timelineHtml}
@@ -393,6 +369,7 @@
     }
 
     function escapeHtml(str) {
+        if (!str) return '';
         return str.replace(/[&<>]/g, function(m) {
             if (m === '&') return '&amp;';
             if (m === '<') return '&lt;';
@@ -410,7 +387,7 @@
             document.getElementById('infoMessage').innerHTML = '<i class="fas fa-info-circle"></i> Veuillez saisir un numéro de suivi.';
             return;
         }
-        document.getElementById('infoMessage').innerHTML = '';
+        document.getElementById('infoMessage').innerHTML = '<i class="fas fa-sync-alt"></i> Scraping en cours avec JavaScript...';
         trackPackage(code);
     });
     trackingInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') trackBtn.click(); });
