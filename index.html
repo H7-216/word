@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -922,67 +923,25 @@
             border-bottom: 1px solid #d1d5db;
             padding: 0.25rem 1rem;
             display: flex;
-            gap: 1.5rem;
+            gap: 0.5rem;
             overflow-x: auto;
-            position: relative;
-            z-index: 100;
-        }
-
-        .editor-menu-item {
-            position: relative;
         }
 
         .editor-menu-btn {
             background: none;
             border: none;
-            padding: 0.4rem 0.6rem;
+            padding: 0.5rem 1rem;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: #374151;
             border-radius: 4px;
-            transition: background 0.2s;
+            transition: all 0.2s;
             white-space: nowrap;
+            font-weight: 500;
         }
 
         .editor-menu-btn:hover {
             background: #e5e7eb;
-        }
-
-        .editor-dropdown {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            min-width: 220px;
-            z-index: 1000;
-        }
-
-        .editor-menu-item:hover .editor-dropdown {
-            display: block;
-        }
-
-        .editor-dropdown-item {
-            padding: 0.6rem 1rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
-            transition: background 0.2s;
-        }
-
-        .editor-dropdown-item:hover {
-            background: #f3f4f6;
-        }
-
-        .editor-dropdown-divider {
-            height: 1px;
-            background: #e5e7eb;
-            margin: 0.5rem 0;
         }
 
         .editor-toolbar {
@@ -993,8 +952,6 @@
             flex-wrap: wrap;
             gap: 0.25rem;
             align-items: center;
-            position: relative;
-            z-index: 50;
         }
 
         .toolbar-group {
@@ -1263,6 +1220,39 @@
 
         .modal-close:hover {
             background: var(--primary-dark);
+        }
+
+        /* Menu Modal */
+        .menu-modal-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .menu-modal-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: var(--text-dark);
+        }
+
+        .menu-modal-item:hover {
+            background: #f3f4f6;
+        }
+
+        .menu-modal-item i {
+            width: 20px;
+            color: var(--primary);
+        }
+
+        .menu-modal-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 0.5rem 0;
         }
 
         .find-replace-inputs {
@@ -1761,180 +1751,26 @@
                     <i class="fas fa-save"></i>
                     Sauvegarder
                 </button>
-                <div class="editor-menu-item">
-                    <button class="editor-btn">
-                        <i class="fas fa-download"></i>
-                        Exporter
-                    </button>
-                    <div class="editor-dropdown">
-                        <div class="editor-dropdown-item" onclick="exportDOCX()">
-                            <i class="fas fa-file-word"></i>
-                            Exporter en .docx
-                        </div>
-                        <div class="editor-dropdown-item" onclick="exportPDF()">
-                            <i class="fas fa-file-pdf"></i>
-                            Exporter en .pdf
-                        </div>
-                    </div>
-                </div>
+                <button class="editor-btn" onclick="exportDOCX()">
+                    <i class="fas fa-file-word"></i>
+                    DOCX
+                </button>
+                <button class="editor-btn" onclick="exportPDF()">
+                    <i class="fas fa-file-pdf"></i>
+                    PDF
+                </button>
             </div>
         </div>
 
-        <!-- Menu Bar -->
+        <!-- Menu Bar - Maintenant en boutons qui ouvrent des modals -->
         <div class="editor-menu-bar">
-            <div class="editor-menu-item">
-                <button class="editor-menu-btn">Fichier</button>
-                <div class="editor-dropdown">
-                    <div class="editor-dropdown-item" onclick="newDocument()">
-                        <i class="fas fa-file"></i>
-                        Nouveau
-                    </div>
-                    <div class="editor-dropdown-item" onclick="document.getElementById('fileInput').click()">
-                        <i class="fas fa-folder-open"></i>
-                        Ouvrir (.docx)
-                    </div>
-                    <div class="editor-dropdown-divider"></div>
-                    <div class="editor-dropdown-item" onclick="saveDocument()">
-                        <i class="fas fa-save"></i>
-                        Sauvegarder
-                    </div>
-                    <div class="editor-dropdown-item" onclick="exportDOCX()">
-                        <i class="fas fa-download"></i>
-                        Enregistrer sous .docx
-                    </div>
-                    <div class="editor-dropdown-item" onclick="exportPDF()">
-                        <i class="fas fa-file-pdf"></i>
-                        Exporter PDF
-                    </div>
-                    <div class="editor-dropdown-divider"></div>
-                    <div class="editor-dropdown-item" onclick="printDocument()">
-                        <i class="fas fa-print"></i>
-                        Imprimer
-                    </div>
-                </div>
-            </div>
-
-            <div class="editor-menu-item">
-                <button class="editor-menu-btn">Accueil</button>
-                <div class="editor-dropdown">
-                    <div class="editor-dropdown-item" onclick="execCmd('cut')">
-                        <i class="fas fa-cut"></i>
-                        Couper
-                    </div>
-                    <div class="editor-dropdown-item" onclick="execCmd('copy')">
-                        <i class="fas fa-copy"></i>
-                        Copier
-                    </div>
-                    <div class="editor-dropdown-item" onclick="execCmd('paste')">
-                        <i class="fas fa-paste"></i>
-                        Coller
-                    </div>
-                    <div class="editor-dropdown-divider"></div>
-                    <div class="editor-dropdown-item" onclick="execCmd('selectAll')">
-                        <i class="fas fa-expand"></i>
-                        Tout sélectionner
-                    </div>
-                </div>
-            </div>
-
-            <div class="editor-menu-item">
-                <button class="editor-menu-btn">Insertion</button>
-                <div class="editor-dropdown">
-                    <div class="editor-dropdown-item" onclick="insertTable()">
-                        <i class="fas fa-table"></i>
-                        Tableau
-                    </div>
-                    <div class="editor-dropdown-item" onclick="insertImage()">
-                        <i class="fas fa-image"></i>
-                        Image par URL
-                    </div>
-                    <div class="editor-dropdown-item" onclick="document.getElementById('imageInput').click()">
-                        <i class="fas fa-upload"></i>
-                        Importer une image
-                    </div>
-                    <div class="editor-dropdown-item" onclick="insertLink()">
-                        <i class="fas fa-link"></i>
-                        Lien hypertexte
-                    </div>
-                    <div class="editor-dropdown-item" onclick="execCmd('insertHorizontalRule')">
-                        <i class="fas fa-minus"></i>
-                        Ligne horizontale
-                    </div>
-                    <div class="editor-dropdown-item" onclick="insertPageBreak()">
-                        <i class="fas fa-page-break"></i>
-                        Saut de page
-                    </div>
-                </div>
-            </div>
-
-            <div class="editor-menu-item">
-                <button class="editor-menu-btn">Mise en page</button>
-                <div class="editor-dropdown">
-                    <div class="editor-dropdown-item" onclick="openModal('page-setup')">
-                        <i class="fas fa-cog"></i>
-                        Mise en page
-                    </div>
-                    <div class="editor-dropdown-item" onclick="setLineSpacing(1)">
-                        <i class="fas fa-align-left"></i>
-                        Interligne simple
-                    </div>
-                    <div class="editor-dropdown-item" onclick="setLineSpacing(1.5)">
-                        <i class="fas fa-align-left"></i>
-                        Interligne 1.5
-                    </div>
-                    <div class="editor-dropdown-item" onclick="setLineSpacing(2)">
-                        <i class="fas fa-align-left"></i>
-                        Interligne double
-                    </div>
-                </div>
-            </div>
-
-            <div class="editor-menu-item">
-                <button class="editor-menu-btn">Références</button>
-                <div class="editor-dropdown">
-                    <div class="editor-dropdown-item" onclick="openModal('footnotes')">
-                        <i class="fas fa-superscript"></i>
-                        Notes de bas de page
-                    </div>
-                    <div class="editor-dropdown-item" onclick="openModal('toc')">
-                        <i class="fas fa-book"></i>
-                        Table des matières
-                    </div>
-                </div>
-            </div>
-
-            <div class="editor-menu-item">
-                <button class="editor-menu-btn">Révision</button>
-                <div class="editor-dropdown">
-                    <div class="editor-dropdown-item" onclick="openFindReplace()">
-                        <i class="fas fa-search"></i>
-                        Rechercher et remplacer
-                    </div>
-                    <div class="editor-dropdown-item" onclick="execCmd('removeFormat')">
-                        <i class="fas fa-eraser"></i>
-                        Effacer la mise en forme
-                    </div>
-                </div>
-            </div>
-
-            <div class="editor-menu-item">
-                <button class="editor-menu-btn">Affichage</button>
-                <div class="editor-dropdown">
-                    <div class="editor-dropdown-item" onclick="changeZoom(10)">
-                        <i class="fas fa-search-plus"></i>
-                        Zoom avant
-                    </div>
-                    <div class="editor-dropdown-item" onclick="changeZoom(-10)">
-                        <i class="fas fa-search-minus"></i>
-                        Zoom arrière
-                    </div>
-                    <div class="editor-dropdown-divider"></div>
-                    <div class="editor-dropdown-item" onclick="setZoom(100)">
-                        <i class="fas fa-expand"></i>
-                        Zoom 100%
-                    </div>
-                </div>
-            </div>
+            <button class="editor-menu-btn" onclick="openMenuModal('fichier')">Fichier</button>
+            <button class="editor-menu-btn" onclick="openMenuModal('accueil')">Accueil</button>
+            <button class="editor-menu-btn" onclick="openMenuModal('insertion')">Insertion</button>
+            <button class="editor-menu-btn" onclick="openMenuModal('miseenpage')">Mise en page</button>
+            <button class="editor-menu-btn" onclick="openMenuModal('references')">Références</button>
+            <button class="editor-menu-btn" onclick="openMenuModal('revision')">Révision</button>
+            <button class="editor-menu-btn" onclick="openMenuModal('affichage')">Affichage</button>
         </div>
 
         <!-- Toolbar -->
@@ -2060,7 +1896,7 @@
     <input type="file" id="fileInput" class="hidden-input" accept=".docx" onchange="handleFileUpload(event)">
     <input type="file" id="imageInput" class="hidden-input" accept="image/*" onchange="handleImageUpload(event)">
 
-    <!-- Modals -->
+    <!-- Info Modal -->
     <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
         <div class="modal" onclick="event.stopPropagation()">
             <div class="modal-header">
@@ -2071,6 +1907,20 @@
             </div>
             <div class="modal-footer">
                 <button class="modal-close" onclick="closeModal()">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Modal -->
+    <div class="modal-overlay" id="menuModalOverlay" onclick="closeMenuModal(event)">
+        <div class="modal" onclick="event.stopPropagation()" style="max-width: 350px;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="menuModalTitle">Menu</h3>
+            </div>
+            <div class="modal-body">
+                <div class="menu-modal-content" id="menuModalContent">
+                    <!-- Content injected by JS -->
+                </div>
             </div>
         </div>
     </div>
@@ -2228,6 +2078,108 @@
             }
         }
 
+        // ============ MENU MODALS ============
+        const menuData = {
+            'fichier': {
+                title: 'Fichier',
+                items: [
+                    { icon: 'fa-file', text: 'Nouveau', action: 'newDocument()' },
+                    { icon: 'fa-folder-open', text: 'Ouvrir (.docx)', action: "document.getElementById('fileInput').click()" },
+                    { divider: true },
+                    { icon: 'fa-save', text: 'Sauvegarder', action: 'saveDocument()' },
+                    { icon: 'fa-file-word', text: 'Enregistrer sous .docx', action: 'exportDOCX()' },
+                    { icon: 'fa-file-pdf', text: 'Exporter PDF', action: 'exportPDF()' },
+                    { divider: true },
+                    { icon: 'fa-print', text: 'Imprimer', action: 'printDocument()' }
+                ]
+            },
+            'accueil': {
+                title: 'Accueil',
+                items: [
+                    { icon: 'fa-cut', text: 'Couper', action: "execCmd('cut')" },
+                    { icon: 'fa-copy', text: 'Copier', action: "execCmd('copy')" },
+                    { icon: 'fa-paste', text: 'Coller', action: "execCmd('paste')" },
+                    { divider: true },
+                    { icon: 'fa-expand', text: 'Tout sélectionner', action: "execCmd('selectAll')" }
+                ]
+            },
+            'insertion': {
+                title: 'Insertion',
+                items: [
+                    { icon: 'fa-table', text: 'Tableau', action: 'insertTable()' },
+                    { icon: 'fa-image', text: 'Image par URL', action: 'insertImage()' },
+                    { icon: 'fa-upload', text: 'Importer une image', action: "document.getElementById('imageInput').click()" },
+                    { icon: 'fa-link', text: 'Lien hypertexte', action: 'insertLink()' },
+                    { divider: true },
+                    { icon: 'fa-minus', text: 'Ligne horizontale', action: "execCmd('insertHorizontalRule')" },
+                    { icon: 'fa-page-break', text: 'Saut de page', action: 'insertPageBreak()' }
+                ]
+            },
+            'miseenpage': {
+                title: 'Mise en page',
+                items: [
+                    { icon: 'fa-cog', text: 'Mise en page', action: "openModal('page-setup')" },
+                    { divider: true },
+                    { icon: 'fa-align-left', text: 'Interligne simple', action: 'setLineSpacing(1)' },
+                    { icon: 'fa-align-left', text: 'Interligne 1.5', action: 'setLineSpacing(1.5)' },
+                    { icon: 'fa-align-left', text: 'Interligne double', action: 'setLineSpacing(2)' }
+                ]
+            },
+            'references': {
+                title: 'Références',
+                items: [
+                    { icon: 'fa-superscript', text: 'Notes de bas de page', action: "openModal('footnotes')" },
+                    { icon: 'fa-book', text: 'Table des matières', action: "openModal('toc')" }
+                ]
+            },
+            'revision': {
+                title: 'Révision',
+                items: [
+                    { icon: 'fa-search', text: 'Rechercher et remplacer', action: 'openFindReplace()' },
+                    { icon: 'fa-eraser', text: 'Effacer la mise en forme', action: "execCmd('removeFormat')" }
+                ]
+            },
+            'affichage': {
+                title: 'Affichage',
+                items: [
+                    { icon: 'fa-search-plus', text: 'Zoom avant', action: 'changeZoom(10)' },
+                    { icon: 'fa-search-minus', text: 'Zoom arrière', action: 'changeZoom(-10)' },
+                    { divider: true },
+                    { icon: 'fa-expand', text: 'Zoom 100%', action: 'setZoom(100)' }
+                ]
+            }
+        };
+
+        function openMenuModal(menuId) {
+            const menu = menuData[menuId];
+            if (!menu) return;
+
+            document.getElementById('menuModalTitle').textContent = menu.title;
+            
+            let html = '';
+            menu.items.forEach(item => {
+                if (item.divider) {
+                    html += '<div class="menu-modal-divider"></div>';
+                } else {
+                    html += `
+                        <div class="menu-modal-item" onclick="${item.action}; closeMenuModal();">
+                            <i class="fas ${item.icon}"></i>
+                            <span>${item.text}</span>
+                        </div>
+                    `;
+                }
+            });
+            
+            document.getElementById('menuModalContent').innerHTML = html;
+            document.getElementById('menuModalOverlay').classList.add('active');
+        }
+
+        function closeMenuModal(event) {
+            if (!event || event.target === document.getElementById('menuModalOverlay')) {
+                document.getElementById('menuModalOverlay').classList.remove('active');
+            }
+        }
+
         // ============ EDITOR FUNCTIONS ============
         let currentZoom = 100;
 
@@ -2363,58 +2315,104 @@
             showToast('Document sauvegardé !', 'success');
         }
 
-        function handleFileUpload(event) {
+        // ============ IMPORT DOCX AVEC JSZIP ============
+        async function handleFileUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
 
-            if (file.name.endsWith('.docx')) {
-                showToast('Import du document en cours...', 'info');
+            if (!file.name.endsWith('.docx')) {
+                showToast('Veuillez sélectionner un fichier .docx', 'error');
+                event.target.value = '';
+                return;
+            }
+
+            showToast('Import du document en cours...', 'info');
+
+            try {
+                const zip = await JSZip.loadAsync(file);
                 
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    try {
+                // Récupérer le contenu du document
+                const xmlContent = await zip.file('word/document.xml').async('text');
+                
+                // Parser le XML pour extraire le texte
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlContent, 'text/xml');
+                
+                // Extraire tous les paragraphes
+                const paragraphs = xmlDoc.getElementsByTagName('w:p');
+                let htmlContent = '';
+                
+                for (let p of paragraphs) {
+                    let paragraphText = '';
+                    const texts = p.getElementsByTagName('w:t');
+                    
+                    for (let t of texts) {
+                        paragraphText += t.textContent;
+                    }
+                    
+                    if (paragraphText.trim()) {
+                        // Vérifier si c'est un titre (basé sur le style)
+                        const pStyle = p.getElementsByTagName('w:pStyle')[0];
+                        const styleId = pStyle ? pStyle.getAttribute('w:val') : '';
+                        
+                        if (styleId && (styleId.includes('Heading1') || styleId === 'Titre1')) {
+                            htmlContent += `<h1>${escapeHtml(paragraphText)}</h1>`;
+                        } else if (styleId && (styleId.includes('Heading2') || styleId === 'Titre2')) {
+                            htmlContent += `<h2>${escapeHtml(paragraphText)}</h2>`;
+                        } else if (styleId && (styleId.includes('Heading3') || styleId === 'Titre3')) {
+                            htmlContent += `<h3>${escapeHtml(paragraphText)}</h3>`;
+                        } else {
+                            htmlContent += `<p>${escapeHtml(paragraphText)}</p>`;
+                        }
+                    } else {
+                        htmlContent += '<p><br></p>';
+                    }
+                }
+                
+                if (htmlContent) {
+                    document.getElementById('editor').innerHTML = htmlContent;
+                } else {
+                    document.getElementById('editor').innerHTML = '<p>Document importé.</p>';
+                }
+                
+                document.getElementById('docTitle').value = file.name.replace('.docx', '');
+                updateCounts();
+                showToast('Document importé avec succès !', 'success');
+                
+            } catch (error) {
+                console.error('Erreur lors de l\'import:', error);
+                
+                // Fallback : lecture simple du texte
+                try {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
                         const text = e.target.result;
-                        
-                        // Try to extract text from the DOCX XML structure
-                        let extractedText = '';
-                        
-                        // Remove XML tags and extract text content
-                        const textContent = text.replace(/<[^>]+>/g, ' ');
-                        
-                        // Clean up extra spaces
-                        extractedText = textContent.replace(/\s+/g, ' ').trim();
-                        
-                        if (extractedText.length > 0) {
-                            // Split into paragraphs
-                            const paragraphs = extractedText.split(/\. (?=[A-Z])|\n+/).filter(p => p.trim().length > 0);
-                            
-                            if (paragraphs.length > 0) {
-                                const htmlContent = paragraphs.map(p => `<p>${p.trim()}.</p>`).join('');
-                                document.getElementById('editor').innerHTML = htmlContent;
-                            } else {
-                                document.getElementById('editor').innerHTML = `<p>${extractedText}</p>`;
-                            }
+                        // Essayer d'extraire du texte lisible
+                        const cleanText = text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+                        if (cleanText.length > 50) {
+                            const sentences = cleanText.match(/[^.!?]+[.!?]+/g) || [cleanText];
+                            const html = sentences.map(s => `<p>${escapeHtml(s.trim())}</p>`).join('');
+                            document.getElementById('editor').innerHTML = html;
                         } else {
                             document.getElementById('editor').innerHTML = '<p>Le document a été importé. Le contenu peut nécessiter une mise en forme.</p>';
                         }
-                        
                         document.getElementById('docTitle').value = file.name.replace('.docx', '');
                         updateCounts();
-                        showToast('Document importé avec succès !', 'success');
-                    } catch (error) {
-                        console.error('Error parsing DOCX:', error);
-                        document.getElementById('editor').innerHTML = '<p>Le document a été importé. Le contenu peut nécessiter une mise en forme.</p>';
-                        document.getElementById('docTitle').value = file.name.replace('.docx', '');
-                        updateCounts();
-                        showToast('Document importé (mise en forme à vérifier)', 'info');
-                    }
-                };
-                reader.readAsText(file);
-            } else {
-                showToast('Veuillez sélectionner un fichier .docx', 'error');
+                        showToast('Document importé (mode compatibilité)', 'info');
+                    };
+                    reader.readAsText(file);
+                } catch (fallbackError) {
+                    showToast('Erreur lors de l\'import du document', 'error');
+                }
             }
             
             event.target.value = '';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
         async function exportPDF() {
